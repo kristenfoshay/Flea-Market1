@@ -756,7 +756,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     // Ask questions
     function askQuestions() {
-        alert('Questions about the dress? I\'m happy to help!\n\nI can provide:\n• More photos from different angles\n• Exact measurements if needed\n• Details about the fabric/care\n• Meeting location options\n\nJust text or email me: [Your Contact Info]');
+        const subject = encodeURIComponent('Question about DONNA Black Dress - Size 6');
+        const body = encodeURIComponent('Hi! I have a question about the DONNA black dress you have for sale:\n\n[Please type your question here]\n\nThanks!');
+        const mailtoLink = `mailto:info@kristensfleamarket.ca?subject=${subject}&body=${body}`;
+        
+        // Open email client
+        window.location.href = mailtoLink;
     }
 
     // Show success message
