@@ -464,6 +464,96 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         opacity: 1;
         visibility: visible;
     }
+
+    /* Contact Form */
+    .contact-form {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .contact-form.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .contact-form h3 {
+        margin-bottom: 1rem;
+        color: #000;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #000;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .form-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+    }
+
+    .btn-small {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #999;
+        transition: color 0.3s ease;
+    }
+
+    .close-btn:hover {
+        color: #000;
+    }
 </style>
 
 </head>
@@ -594,12 +684,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 </footer>
 
+<!-- Contact Form -->
+<div class="overlay" id="overlay" onclick="hideContactForm()"></div>
+<div class="contact-form" id="contactForm">
+    <button class="close-btn" onclick="hideContactForm()">&times;</button>
+    <h3>Message Me About the Dress</h3>
+    <form id="emailForm" onsubmit="sendEmail(event)">
+        <div class="form-group">
+            <label for="senderName">Your Name *</label>
+            <input type="text" id="senderName" name="senderName" required>
+        </div>
+        <div class="form-group">
+            <label for="senderEmail">Your Email *</label>
+            <input type="email" id="senderEmail" name="senderEmail" required>
+        </div>
+        <div class="form-group">
+            <label for="senderPhone">Your Phone (optional)</label>
+            <input type="tel" id="senderPhone" name="senderPhone">
+        </div>
+        <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" placeholder="Hi! I'm interested in the DONNA black dress..." required></textarea>
+        </div>
+        <div class="form-buttons">
+            <button type="button" class="btn btn-secondary btn-small" onclick="hideContactForm()">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-small">Send Message</button>
+        </div>
+    </form>
+</div>
+
 <!-- Success Message -->
-<div class="overlay" id="overlay" onclick="hideMessage()"></div>
 <div class="success-message" id="successMessage">
-    <h3>Added to Cart! 🎉</h3>
-    <p>Your black dress has been added to your cart.</p>
-    <button class="btn btn-primary" onclick="hideMessage()" style="margin-top: 1rem;">Continue Shopping</button>
+    <h3>Message Sent! 🎉</h3>
+    <p>Thanks for your interest! I'll get back to you soon.</p>
+    <button class="btn btn-primary" onclick="hideMessage()" style="margin-top: 1rem;">Close</button>
 </div>
 
 <script>
@@ -633,12 +751,67 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     // Contact seller
     function contactSeller() {
-        alert('Hi! Thanks for your interest in the dress!\n\nText me at: [Your Phone Number]\nOr email: [Your Email]\n\nI usually respond within a few hours and we can set up a time to meet. Looking forward to hearing from you! 😊');
+        showContactForm();
     }
 
     // Ask questions
     function askQuestions() {
         alert('Questions about the dress? I\'m happy to help!\n\nI can provide:\n• More photos from different angles\n• Exact measurements if needed\n• Details about the fabric/care\n• Meeting location options\n\nJust text or email me: [Your Contact Info]');
+    }
+
+    // Show success message
+    function showMessage() {
+        document.getElementById('overlay').classList.add('show');
+        document.getElementById('successMessage').classList.add('show');
+    }
+
+    // Show contact form
+    function showContactForm() {
+        document.getElementById('overlay').classList.add('show');
+        document.getElementById('contactForm').classList.add('show');
+    }
+
+    // Hide contact form
+    function hideContactForm() {
+        document.getElementById('overlay').classList.remove('show');
+        document.getElementById('contactForm').classList.remove('show');
+    }
+
+    // Send email
+    function sendEmail(event) {
+        event.preventDefault();
+        
+        const form = document.getElementById('emailForm');
+        const formData = new FormData(form);
+        
+        const name = formData.get('senderName');
+        const email = formData.get('senderEmail');
+        const phone = formData.get('senderPhone');
+        const message = formData.get('message');
+        
+        // Create email body
+        let emailBody = `New message about the DONNA black dress:\n\n`;
+        emailBody += `From: ${name}\n`;
+        emailBody += `Email: ${email}\n`;
+        if (phone) {
+            emailBody += `Phone: ${phone}\n`;
+        }
+        emailBody += `\nMessage:\n${message}`;
+        
+        // Use EmailJS or mailto (using mailto for now as it's simpler)
+        const subject = encodeURIComponent('Interest in DONNA Black Dress - Size 6');
+        const body = encodeURIComponent(emailBody);
+        const mailtoLink = `mailto:zachary.choi@kristensfleamarket.ca?subject=${subject}&body=${body}`;
+        
+        // Open email client
+        window.location.href = mailtoLink;
+        
+        // Show success message and hide form
+        hideContactForm();
+        showMessage();
+        
+        // Reset form
+        form.reset();
     }
 
     // Show success message
