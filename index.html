@@ -363,10 +363,85 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         color: #999;
     }
 
+    /* Hamburger Menu */
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .hamburger span {
+        width: 25px;
+        height: 3px;
+        background: #000;
+        margin: 3px 0;
+        transition: 0.3s;
+        border-radius: 3px;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    .mobile-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 1rem 0;
+    }
+
+    .mobile-menu.show {
+        display: block;
+    }
+
+    .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .mobile-menu li {
+        text-align: center;
+        padding: 0.5rem 0;
+    }
+
+    .mobile-menu a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+    }
+
+    .mobile-menu a:hover {
+        color: #666;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
         .nav-links {
             display: none;
+        }
+
+        .hamburger {
+            display: flex;
+        }
+
+        nav {
+            position: relative;
         }
 
         .logo {
@@ -589,6 +664,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li><a href="#details">Details</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="#product" onclick="closeMobileMenu()">Product</a></li>
+                    <li><a href="#details" onclick="closeMobileMenu()">Details</a></li>
+                    <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
+                </ul>
+            </div>
        <!--     <div class="cart-icon" onclick="showCart()">
                 🛍️
                 <div class="cart-count" id="cartCount">0</div>
@@ -860,6 +947,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             alert('Your cart is empty.');
         }
     }
+
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const hamburger = document.querySelector('.hamburger');
+        
+        mobileMenu.classList.toggle('show');
+        hamburger.classList.toggle('active');
+    }
+
+    // Close mobile menu
+    function closeMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const hamburger = document.querySelector('.hamburger');
+        
+        mobileMenu.classList.remove('show');
+        hamburger.classList.remove('active');
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const hamburger = document.querySelector('.hamburger');
+        const nav = document.querySelector('nav');
+        
+        if (!nav.contains(event.target) && mobileMenu.classList.contains('show')) {
+            closeMobileMenu();
+        }
+    });
 
     // Smooth scrolling for navigation
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
