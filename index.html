@@ -760,6 +760,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         opacity: 0.6;
         cursor: not-allowed;
     }
+
+    /* Availability Banner */
+    .availability-banner {
+        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        color: white;
+        text-align: center;
+        padding: 0.8rem 1rem;
+        font-weight: 500;
+        font-size: 0.95rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        position: relative;
+    }
+
+    .availability-banner::before {
+        content: "✓";
+        margin-right: 0.5rem;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+        .availability-banner {
+            font-size: 0.9rem;
+            padding: 0.7rem 1rem;
+        }
+    }
 </style>
 
 </head>
@@ -786,6 +812,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
         </nav>
     </header>
+
+    <!-- Availability Banner -->
+    <div class="availability-banner">
+        <span id="availabilityText">DRESS STILL AVAILABLE as of <span id="currentDate"></span></span>
+    </div>
 
 <!-- Hero Section -->
 <section class="hero" id="product">
@@ -990,6 +1021,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         // Clear the form
         document.getElementById('emailForm').reset();
     }
+
+    // Set current date in availability banner
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentDateSpan = document.getElementById('currentDate');
+        const today = new Date();
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        };
+        currentDateSpan.textContent = today.toLocaleDateString('en-US', options);
+    });
 
     // Handle form submission
     document.addEventListener('DOMContentLoaded', function() {
