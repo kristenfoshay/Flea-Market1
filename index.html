@@ -814,23 +814,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div class="contact-form" id="contactForm">
     <button class="close-btn" onclick="hideContactForm()">&times;</button>
     <h3>Message Me About the Dress</h3>
-    <form id="emailForm" onsubmit="sendEmail(event)">
+    <form id="emailForm" action="https://formspree.io/f/xovknebz" method="POST">
         <div class="form-group">
             <label for="senderName">Your Name *</label>
-            <input type="text" id="senderName" name="senderName" required>
+            <input type="text" id="senderName" name="name" required>
         </div>
         <div class="form-group">
             <label for="senderEmail">Your Email *</label>
-            <input type="email" id="senderEmail" name="senderEmail" required>
+            <input type="email" id="senderEmail" name="email" required>
         </div>
         <div class="form-group">
             <label for="senderPhone">Your Phone (optional)</label>
-            <input type="tel" id="senderPhone" name="senderPhone">
+            <input type="tel" id="senderPhone" name="phone">
         </div>
         <div class="form-group">
             <label for="message">Message *</label>
             <textarea id="message" name="message" placeholder="Hi! I'm interested in the DONNA black dress..." required></textarea>
         </div>
+        <input type="hidden" name="_subject" value="Interest in DONNA Black Dress - Size 6">
         <div class="form-buttons">
             <button type="button" class="btn btn-secondary btn-small" onclick="hideContactForm()">Cancel</button>
             <button type="submit" class="btn btn-primary btn-small">Send Message</button>
@@ -881,15 +882,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     // Ask questions
     function askQuestions() {
-        const subject = encodeURIComponent('Question about DONNA Black Dress - Size 6');
-        const body = encodeURIComponent('Hi! I have a question about the DONNA black dress you have for sale:\n\n[Please type your question here]\n\nThanks!');
-        const mailtoLink = `mailto:info@kristensfleamarket.ca?subject=${subject}&body=${body}`;
-        
-        // Open email client
-        window.location.href = mailtoLink;
-        
-        // Show success message
-        showMessage();
+        // Pre-fill the form with a question template
+        document.getElementById('message').value = 'Hi! I have a question about the DONNA black dress you have for sale:\n\n[Please type your question here]\n\nThanks!';
+        showContactForm();
     }
 
     // Show success message
@@ -908,44 +903,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     function hideContactForm() {
         document.getElementById('overlay').classList.remove('show');
         document.getElementById('contactForm').classList.remove('show');
+        // Clear the form
+        document.getElementById('emailForm').reset();
     }
 
-    // Send email
-    function sendEmail(event) {
-        event.preventDefault();
+    // Handle form submission
+    document.getElementById('emailForm').addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        const form = document.getElementById('emailForm');
+        const form = e.target;
         const formData = new FormData(form);
         
-        const name = formData.get('senderName');
-        const email = formData.get('senderEmail');
-        const phone = formData.get('senderPhone');
-        const message = formData.get('message');
-        
-        // Create email body
-        let emailBody = `New message about the DONNA black dress:\n\n`;
-        emailBody += `From: ${name}\n`;
-        emailBody += `Email: ${email}\n`;
-        if (phone) {
-            emailBody += `Phone: ${phone}\n`;
-        }
-        emailBody += `\nMessage:\n${message}`;
-        
-        // Use EmailJS or mailto (using mailto for now as it's simpler)
-        const subject = encodeURIComponent('Interest in DONNA Black Dress - Size 6');
-        const body = encodeURIComponent(emailBody);
-        const mailtoLink = `mailto:info@kristensfleamarket.ca?subject=${subject}&body=${body}`;
-        
-        // Open email client
-        window.location.href = mailtoLink;
-        
-        // Show success message and hide form
-        hideContactForm();
-        showMessage();
-        
-        // Reset form
-        form.reset();
-    }
+        // Submit to Formspree
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                hideContactForm();
+                showMessage();
+                form.reset();
+            } else {
+                alert('There was a problem sending your message. Please try again.');
+            }
+        }).catch(error => {
+            alert('There was a problem sending your message. Please try again.');
+        });
+    });
+
 
     // Show success message
     function showMessage() {
