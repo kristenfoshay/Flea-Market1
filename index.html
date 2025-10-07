@@ -55,6 +55,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         padding: 1rem 0;
     }
 
+    @media (max-width: 768px) {
+        nav {
+            justify-content: center;
+            position: relative;
+        }
+
+        .hamburger {
+            position: absolute;
+            left: 0;
+        }
+
+        .logo {
+            text-align: center;
+            white-space: nowrap;
+        }
+    }
+
     .logo {
         font-family: 'Bitshow', Arial, sans-serif;
         font-size: 2rem;
@@ -441,9 +458,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             display: flex;
         }
 
-        nav {
-            position: relative;
-        }
 
         .logo {
             font-size: 1.3rem;
@@ -509,6 +523,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             height: 20px;
             vertical-align: text-bottom;
             margin-left: 2px;
+        }
+
+        .logo img {
+            display: none;
         }
 
         .hero {
@@ -666,7 +684,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- Header -->
     <header>
         <nav class="container">
-            <a href="#" class="logo">Kristen's<br>Flea<br>Market <img src="assets/images/daisy.png" alt="Flower" style="width: 30px; height: 30px; vertical-align: middle;"></a>
+            <a href="#" class="logo">Kristen's Flea Market <img src="assets/images/daisy.png" alt="Flower" style="width: 30px; height: 30px; vertical-align: middle;"></a>
             <ul class="nav-links">
                 <li><a href="#product">Product</a></li>
                 <li><a href="#details">Details</a></li>
