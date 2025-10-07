@@ -53,23 +53,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         justify-content: space-between;
         align-items: center;
         padding: 1rem 0;
+        position: relative;
     }
 
     @media (max-width: 768px) {
-        nav {
-            justify-content: center;
-            position: relative;
-        }
-
-        .hamburger {
-            position: absolute;
-            left: 0;
-        }
-
-        .logo {
-            text-align: center;
-            white-space: nowrap;
-            padding-left: 40px;
+        .daisy-icon {
+            width: 30px;
+            height: 30px;
         }
     }
 
@@ -79,24 +69,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         font-weight: bold;
         color: #000;
         text-decoration: none;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
-    .nav-links {
-        display: flex;
-        list-style: none;
-        gap: 2rem;
+    .daisy-icon {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
     }
 
-    .nav-links a {
-        text-decoration: none;
-        color: #333;
-        font-weight: bold;
-        transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-        color: #666;
-    }
 
     .cart-icon {
         font-size: 1.5rem;
@@ -384,7 +368,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* Hamburger Menu */
     .hamburger {
-        display: none;
+        display: flex;
         flex-direction: column;
         cursor: pointer;
         padding: 5px;
@@ -451,13 +435,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* Responsive Design */
     @media (max-width: 768px) {
-        .nav-links {
-            display: none;
-        }
-
-        .hamburger {
-            display: flex;
-        }
 
 
         .logo {
@@ -685,28 +662,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- Header -->
     <header>
         <nav class="container">
-            <a href="#" class="logo">Kristen's Flea Market</a>
-            <ul class="nav-links">
-                <li><a href="#product">Product</a></li>
-                <li><a href="#details">Details</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
             <div class="hamburger" onclick="toggleMobileMenu()">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
+            <a href="#" class="logo">Kristen's Flea Market</a>
+            <img src="assets/images/daisy.png" alt="Daisy" class="daisy-icon">
             <div class="mobile-menu" id="mobileMenu">
                 <ul>
                     <li><a href="#product" onclick="closeMobileMenu()">Product</a></li>
-                    <li><a href="#details" onclick="closeMobileMenu()">Details</a></li>
                     <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
                 </ul>
             </div>
-       <!--     <div class="cart-icon" onclick="showCart()">
-                🛍️
-                <div class="cart-count" id="cartCount">0</div>
-            </div> -->
         </nav>
     </header>
 
